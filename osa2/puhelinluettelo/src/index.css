@@ -1,0 +1,48 @@
+body {
+  background-color: rgb(119, 148, 125);
+}
+
+#phonebook {
+  background-color: rgb(158, 192, 180);
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 5px;
+}
+
+.note {
+  background-color: rgb(209, 203, 203);
+  padding: 3px;
+  margin: 3px 0 3px 0;
+  font-size: 15px;
+}
+
+.buttonAdd {
+  border: 1px solid #000;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.buttonDelete {
+  border: 1px solid #000;
+  font-family: Arial, Helvetica, sans-serif;
+  float: right;
+}
+
+.notification {
+  font-size: 15px;
+  margin: 3px 0 3px 0;
+  padding: 5px;
+}
+
+.error {
+  color: whitesmoke;
+  background: rgb(100, 38, 38);
+}
+
+.success {
+  color: whitesmoke;
+  background: rgb(12, 92, 19);
+}
+
+.info {
+  color: black;
+  background: rgb(228, 199, 39);
+}
