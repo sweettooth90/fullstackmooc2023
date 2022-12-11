@@ -131,6 +131,9 @@ const App = () => {
           setNewName('')
           setNewNumber('')
         })
+        .catch(error => {
+          showNotification('Name must contain at least 3 characters', 'error')
+        })
     }
   }
 
