@@ -4,7 +4,7 @@ import './index.css'
 
 const Notification = ({notification}) => {
   if (notification === null) {
-      return null
+    return null
   }
 
   const style =
@@ -109,7 +109,7 @@ const App = () => {
       if (window.confirm(`"${personObject.name}" is already added, replace the old number with a new one?`)) {
         const newNum = persons.find(person => person.name === newName)
         const updatedNumber = {...newNum, number: newNumber}
-        
+
         personService
           .updatePerson(newNum.id, updatedNumber)
           .then(updated => {
@@ -118,7 +118,7 @@ const App = () => {
             setNewName('')
             setNewNumber('')
           })
-          .catch(error => {
+          .catch(() => {
             showNotification(`Information of "${personObject.name}" has already been deleted from the server`, 'error')
           })
       }
@@ -145,7 +145,7 @@ const App = () => {
           personService.getAllPersons().then(response => setPersons(response))
           showNotification(`Person "${person.name}" has been deleted successfully`, 'success')
         })
-        .catch(error => {
+        .catch(() => {
           showNotification(`Person "${person.name}" has already been deleted`, 'error')
         })
     }
