@@ -13,25 +13,16 @@ const favoriteBlog = (blogs) => {
 }
 
 const mostBlogs = (blogs) => {
-  const author =
-    _.head(
-      _.chain(blogs)
-        .countBy('author')
-        .entries()
-        .maxBy()
-        .value()
-    )
-  const blogAmount =
-    _.last(
-      _.chain(blogs)
-        .countBy('author')
-        .entries()
-        .maxBy()
-        .value()
-    )
+  const blog =
+    _.chain(blogs)
+      .countBy('author')
+      .entries()
+      .maxBy()
+      .value()
+
   const result = {
-    author: author,
-    blogs: blogAmount
+    author: _.head(blog),
+    blogs: _.last(blog)
   }
   return result
 }
