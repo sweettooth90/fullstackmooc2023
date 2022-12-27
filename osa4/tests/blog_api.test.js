@@ -1,11 +1,13 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const helper = require('./test_helper')
+const bcrypt = require('bcrypt')
 const app = require('../app')
 
 const api = supertest(app)
 
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 describe('when blogs are saved', () => {
   beforeEach(async () => {
@@ -85,7 +87,8 @@ describe('when blogs are saved', () => {
   })
 
   describe('adding a new blog', () => {
-    test('with valid fields can be added ', async () => {
+    test('with valid fields can be added', async () => {
+      // const {token, user} = await makeUser.createUser()
       const newBlog = {
         title: 'async/await simplifies making async calls',
         author: 'Wayne Writer',
@@ -95,6 +98,7 @@ describe('when blogs are saved', () => {
 
       await api
         .post('/api/blogs')
+        //.set('Authorization', `bearer ${token}`)
         .send(newBlog)
         .expect(201)
         .expect('Content-Type', /application\/json/)
@@ -110,7 +114,9 @@ describe('when blogs are saved', () => {
 
     test('without title is not added', async () => {
       const newBlog = {
-        likes: 5
+        author: 'Wayne Writer',
+        url: 'www.example.com',
+        likes: 3
       }
 
       await api
@@ -174,6 +180,122 @@ describe('when blogs are saved', () => {
       const titles = blogsAtEnd.map(r => r.title)
       expect(titles).not.toContain(blogToDelete.title)
     })
+  })
+})
+
+describe('when there is initially one user at db', () => {
+  beforeEach(async () => {
+    await User.deleteMany({})
+    const passwordHash = await bcrypt.hash('sekret', 10)
+    const user = new User({username: 'root', passwordHash})
+    await user.save()
+  })
+
+  test('creation succeeds with a fresh username', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'userX',
+      name: 'Test User',
+      password: 'secret',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length + 1)
+
+    const usernames = usersAtEnd.map(u => u.username)
+    expect(usernames).toContain(newUser.username)
+  })
+
+  test('creation fails if username is already taken', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'root',
+      name: 'Superuser',
+      password: 'secret'
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    expect(result.body.error).toContain('username must be unique')
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+  })
+})
+
+describe('when creating a user', () => {
+  beforeEach(async () => {
+    await User.deleteMany({})
+    const passwordHash = await bcrypt.hash('sekret', 10)
+    const user = new User({username: 'root', passwordHash})
+    await user.save()
+  })
+
+  test('the creation is successfull', async () => {
+    const usersAtStart = await helper.usersInDb()
+    const newUser = {
+      username: 'userXXX',
+      name: 'User XXX',
+      password: 'secret'
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length + 1)
+
+    const updatedUsernames = usersAtEnd.map(u => u.username)
+    expect(updatedUsernames).toContain(newUser.username)
+  })
+
+  test('too short username returns error 400', async () => {
+    const usersAtStart = await helper.usersInDb()
+    const newUser = {
+      username: 'us',
+      name: 'User XXX',
+      password: 'secret'
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+  })
+
+  test('too short password returns error 400', async () => {
+    const usersAtStart = await helper.usersInDb()
+    const newUser = {
+      username: 'userXXXX',
+      name: 'User XXX',
+      password: 'se'
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
   })
 })
 
