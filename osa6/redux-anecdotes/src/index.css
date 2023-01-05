@@ -1,0 +1,14 @@
+body {
+  background-color: rgb(212, 224, 224);
+}
+
+button {
+  background-color: rgb(184, 248, 184);
+  border: 1px solid #000; 
+  margin: 3px 0 3px 0;
+}
+
+input {
+  background-color: rgb(246, 248, 211);
+  border: 1px solid #000;
+}
