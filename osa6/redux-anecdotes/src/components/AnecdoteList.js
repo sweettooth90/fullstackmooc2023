@@ -6,7 +6,7 @@ const Anecdote = ({anecdote, handleClick}) => {
   return (
     <div key={anecdote.id}>
       <div>
-        {anecdote.content}d
+        {anecdote.content}
       </div>
       <div>
         has {anecdote.votes}&nbsp;
