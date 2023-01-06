@@ -20,6 +20,11 @@ const createNew = async (content) => {
   return response.data
 }
 
-const operations = {getAll, createNew}
+const update = async (id, anecdote) => {
+  const response = await axios.put(`${baseUrl}/${id}`, anecdote)
+  return response.data
+}
+
+const operations = {getAll, createNew, update}
 
 export default operations
