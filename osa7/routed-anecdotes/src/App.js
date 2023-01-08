@@ -55,9 +55,9 @@ const AnecdoteList = ({anecdotes}) => {
 }
 
 const CreateNew = ({addNew, setNotification}) => {
-  const content = useField('content')
-  const author = useField('author')
-  const info = useField('info')
+  const {clear: clearContent, ...content} = useField('content')
+  const {clear: clearAuthor, ...author} = useField('author')
+  const {clear: clearInfo, ...info} = useField('info')
 
   const navigate = useNavigate()
   
@@ -71,6 +71,12 @@ const CreateNew = ({addNew, setNotification}) => {
     })
     navigate('/')
     setNotification(`a new anecdote "${content.value}" created!`)
+  }
+
+  const clearInputs = () => {
+    clearContent()
+    clearAuthor()
+    clearInfo()
   }
 
   return (
@@ -91,6 +97,7 @@ const CreateNew = ({addNew, setNotification}) => {
         </div>
         <button>create</button>
       </form>
+      <button onClick={clearInputs}>reset</button>
     </div>
   )
 }
