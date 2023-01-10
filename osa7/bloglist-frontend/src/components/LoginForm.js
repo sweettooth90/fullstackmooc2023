@@ -1,6 +1,8 @@
 import {useState} from 'react'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
+import {Form} from 'react-bootstrap'
+import styled from 'styled-components'
 
 const LoginForm = ({setUser, setNotification}) => {
   const [username, setUsername] = useState('')
@@ -21,32 +23,43 @@ const LoginForm = ({setUser, setNotification}) => {
     }
   }
 
+  const Button = styled.button`
+    background: Bisque;
+    font-size: 1em;
+    margin: 1em 0 1em 0;
+    padding: 0.25em 1em;
+    border: 2px solid Chocolate;
+    border-radius: 3px;
+  `
+
   return (
     <>
-      <h3>login</h3>
-      <form onSubmit={handleLogin}>
-        <div>
-        username:&nbsp;
-          <input
-            id="username"
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({target}) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-        password:&nbsp;
-          <input
-            id="password"
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({target}) => setPassword(target.value)}
-          />
-        </div>
-        <button id="login-button" type="submit">login</button>
-      </form>
+      <h4>login</h4>
+      <Form onSubmit={handleLogin}>
+        <Form.Group>
+          <div>
+            <Form.Label>username:</Form.Label>
+            <Form.Control
+              id="username"
+              type="text"
+              value={username}
+              name="Username"
+              onChange={({target}) => setUsername(target.value)}
+            />
+          </div>
+          <div>
+            <Form.Label>password:</Form.Label>
+            <Form.Control
+              id="password"
+              type="password"
+              value={password}
+              name="Password"
+              onChange={({target}) => setPassword(target.value)}
+            />
+          </div>
+          <Button variant="primary" id="login-button" type="submit">login</Button>
+        </Form.Group>
+      </Form>
     </>
   )
 }

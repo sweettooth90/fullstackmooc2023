@@ -1,5 +1,6 @@
 body {
   background-color: rgb(241, 240, 226);
+  padding: 10px;
 }
 
 .blogList {
@@ -10,9 +11,14 @@ body {
 
 .notification {
   font-size: 16px;
-  margin: 3px 0 3px 0;
-  padding: 5px;
+  margin: 10px 0 10px 0;
+  padding: 0 0 0 15px;
   border-radius: 3px;
+  height: 47px;
+  justify-content: left;
+  display: flex;
+  line-height: 45px;
+  border: 1px solid rgb(194, 194, 194)
 }
 
 .error {
@@ -22,5 +28,5 @@ body {
 
 .success {
   color: rgb(0, 0, 0);
-  background: rgb(133, 214, 140);
+  background: rgb(183, 231, 187);
 }

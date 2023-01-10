@@ -4,6 +4,7 @@ import blogService from '../services/blogs'
 import LoginForm from './LoginForm'
 import Blog from './Blog'
 import Togglable from './Togglable'
+import Table from 'react-bootstrap/Table'
 
 const BlogList = ({user, setUser, setNotification}) => {
   const [blogs, setBlogs] = useState([])
@@ -71,20 +72,26 @@ const BlogList = ({user, setUser, setNotification}) => {
       </div>
 
       <h3>bloglist</h3>
-      {blogs
-        .sort((a, b) => b.likes - a.likes)
-        .map(blog =>
-          <div key={blog.id} className="blogList">
-            <Blog
-              blog={blog}
-              loggedUser={user}
-              likeBlog={likeBlog}
-              deleteBlog={deleteBlog}
-              user={user}
-            />
-          </div>
-        )
-      }
+      <Table striped>
+        <tbody>
+          {blogs
+            .sort((a, b) => b.likes - a.likes)
+            .map(blog =>
+              <tr key={blog.id} className="blogList">
+                <td>
+                  <Blog
+                    blog={blog}
+                    loggedUser={user}
+                    likeBlog={likeBlog}
+                    deleteBlog={deleteBlog}
+                    user={user}
+                  />
+                </td>
+              </tr>
+            )
+          }
+        </tbody>
+      </Table>
     </>
   )
 }
