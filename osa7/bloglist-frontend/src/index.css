@@ -30,3 +30,33 @@ body {
   color: rgb(0, 0, 0);
   background: rgb(183, 231, 187);
 }
+
+.tableStyling {
+  display: flex;
+  justify-content: right;
+}
+
+a:link, a:visited, a:active {
+  color: rgb(72, 94, 23);
+  text-decoration: none;
+}
+
+a:hover {
+  color: rgb(139, 175, 60);
+  text-decoration: none;
+}
+
+.buttonMargin {
+  margin: 5px 0 5px 0;
+}
+
+.menu {
+  background-color:rgb(209, 209, 209);
+  display: flex;
+  padding: 5px 5px 5px 0;
+  margin: 0 0 10px 0;
+}
+
+.menuItem {
+  padding: 0 0 0 5px;
+}

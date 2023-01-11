@@ -4,6 +4,15 @@ import blogService from '../services/blogs'
 import {Form} from 'react-bootstrap'
 import styled from 'styled-components'
 
+const Button = styled.button`
+  background: Bisque;
+  font-size: 1em;
+  margin: 1em 0 1em 0;
+  padding: 0.25em 1em;
+  border: 2px solid Chocolate;
+  border-radius: 3px;
+`
+
 const LoginForm = ({setUser, setNotification}) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -15,22 +24,11 @@ const LoginForm = ({setUser, setNotification}) => {
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       blogService.setToken(user.token)
       setUser(user)
-      setUsername('')
-      setPassword('')
       setNotification(`you have logged in as a "${user.name}"`, 'success')
     } catch (exception) {
       setNotification('wrong username or password', 'error')
     }
   }
-
-  const Button = styled.button`
-    background: Bisque;
-    font-size: 1em;
-    margin: 1em 0 1em 0;
-    padding: 0.25em 1em;
-    border: 2px solid Chocolate;
-    border-radius: 3px;
-  `
 
   return (
     <>

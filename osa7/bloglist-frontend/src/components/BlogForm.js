@@ -1,27 +1,33 @@
 import {useState} from 'react'
+import blogService from '../services/blogs'
 
-const BlogForm = ({addBlog}) => {
+const BlogForm = ({setBlogs, setNotification, blogFormRef, blogs}) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
-  const add = (event) => {
+  const blogObject = {
+    title: title,
+    author: author,
+    url: url,
+    likes: 0
+  }
+
+  const addBlog = (event) => {
     event.preventDefault()
-    addBlog({
-      title: title,
-      author: author,
-      url: url,
-      likes: 0
-    })
-    setTitle('')
-    setAuthor('')
-    setUrl('')
+    blogService
+      .create(blogObject)
+      .then(returnedBlog => {
+        setBlogs(blogs.concat(returnedBlog))
+        blogFormRef.current.toggleVisibility()
+      })
+    setNotification('blog created', 'success')
   }
 
   return (
     <>
       <h3>create new</h3>
-      <form id="blog-form" onSubmit={add}>
+      <form id="blog-form" onSubmit={addBlog}>
         <div>
         title:&nbsp;
           <input
@@ -46,7 +52,7 @@ const BlogForm = ({addBlog}) => {
             onChange={({target}) => setUrl(target.value)}
           />
         </div>
-        <button id="create-button" type="submit">create</button>
+        <button id="create-button" type="submit" className="buttonMargin">create</button>
       </form>
     </>
   )
