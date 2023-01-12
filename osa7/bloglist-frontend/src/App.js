@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react'
+import {useDispatch} from 'react-redux'
 import {Routes, Route, useMatch} from 'react-router-dom'
 import BlogList from './components/BlogList'
 import User from './components/User'
@@ -6,16 +7,18 @@ import Users from './components/Users'
 import blogService from './services/blogs'
 import userService from './services/users'
 import Notification from './components/Notification'
+import {handleNotification} from './reducers/notificationReducer'
 import Menu from './components/Menu'
 import Login from './components/Login'
 import Blog from './components/Blog'
 import './index.css'
 
 const App = () => {
-  const [notification, setNotification] = useState(null)
   const [user, setUser] = useState(null)
   const [users, setUsers] = useState([])
   const [blogs, setBlogs] = useState([])
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     userService.getAllUsers().then(users => setUsers(users))
@@ -23,10 +26,7 @@ const App = () => {
   }, [])
 
   const showNotification = (text, type) => {
-    setNotification({text, type})
-    setTimeout(() => {
-      setNotification(null)
-    }, 4000)
+    dispatch(handleNotification({text, type}))
   }
 
   const matchBlog = useMatch('/blogs/:id')
@@ -46,15 +46,16 @@ const App = () => {
 
   return (
     <div>
-      <Menu user={user} setUser={setUser} setNotification={showNotification} />
-      <Notification notification={notification} />
-      <Login user={user} setUser={setUser} setNotification={showNotification} />
-      <Routes>
+      <Menu user={user} setUser={setUser} showNotification={showNotification} />
+      <Notification />
+      <Login user={user} setUser={setUser} showNotification={showNotification} />
+      <Routes showNotification={showNotification}>
         <Route path="/" element={
           <BlogList
             blogs={blogs}
             setBlogs={setBlogs}
-            setNotification={showNotification}
+            showNotification={showNotification}
+            user={user}
           />
         } />
         <Route path="/users" element={<Users users={users} />} />
@@ -63,9 +64,9 @@ const App = () => {
           <Blog
             blog={showBlog}
             setBlogs={setBlogs}
-            setNotification={showNotification}
             loggedUser={user}
             user={user}
+            showNotification={showNotification}
           />
         } />
       </Routes>

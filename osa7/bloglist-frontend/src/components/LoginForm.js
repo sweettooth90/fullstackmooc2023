@@ -13,7 +13,7 @@ const Button = styled.button`
   border-radius: 3px;
 `
 
-const LoginForm = ({setUser, setNotification}) => {
+const LoginForm = ({setUser, showNotification}) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -24,9 +24,9 @@ const LoginForm = ({setUser, setNotification}) => {
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       blogService.setToken(user.token)
       setUser(user)
-      setNotification(`you have logged in as a "${user.name}"`, 'success')
+      showNotification(`you have logged in as a "${user.name}"`, 'success')
     } catch (exception) {
-      setNotification('wrong username or password', 'error')
+      showNotification('wrong username or password', 'error')
     }
   }
 

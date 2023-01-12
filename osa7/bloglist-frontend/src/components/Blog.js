@@ -9,7 +9,7 @@ const Button = styled.button`
   border-radius: 3px;
 `
 
-const Blog = ({blog, loggedUser, user, setBlogs, setNotification}) => {
+const Blog = ({blog, loggedUser, user, setBlogs, showNotification}) => {
   if (!blog) {
     return null
   }
@@ -35,7 +35,7 @@ const Blog = ({blog, loggedUser, user, setBlogs, setNotification}) => {
         .then(() => {
           blogService.getAll().then(blogs => setBlogs(blogs))
         })
-      setNotification('Blog removed', 'success')
+      showNotification(`blog "${blog.title}" removed`, 'success')
     }
   }
 

@@ -9,13 +9,13 @@ const Button = styled.button`
   border-radius: 3px;
 `
 
-const Menu = ({user, setUser, setNotification}) => {
+const Menu = ({user, setUser, showNotification}) => {
 
   const handleLogOut = event => {
     event.preventDefault()
     window.localStorage.clear()
     setUser(null)
-    setNotification('you have logged out', 'success')
+    showNotification('you have logged out', 'success')
   }
 
   return (

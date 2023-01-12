@@ -4,15 +4,23 @@ import {Link} from 'react-router-dom'
 import Togglable from './Togglable'
 import Table from 'react-bootstrap/Table'
 
-const BlogList = ({setBlogs, blogs, setNotification}) => {
+const BlogList = ({setBlogs, blogs, showNotification, user}) => {
   const blogFormRef = useRef()
+
   return (
     <>
       <h4>bloglist</h4>
       <div className="buttonMargin">
-        <Togglable buttonLabel="new blog" ref={blogFormRef}>
-          <BlogForm setBlogs={setBlogs} setNotification={setNotification} blogFormRef={blogFormRef} blogs={blogs} />
-        </Togglable>
+        {user &&
+          <Togglable buttonLabel="new blog" ref={blogFormRef}>
+            <BlogForm
+              setBlogs={setBlogs}
+              showNotification={showNotification}
+              blogFormRef={blogFormRef}
+              blogs={blogs}
+            />
+          </Togglable>
+        }
       </div>
       <Table striped>
         <tbody>

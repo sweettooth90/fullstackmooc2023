@@ -1,11 +1,11 @@
 import LoginForm from './LoginForm'
 
-const Login = ({user, setUser, setNotification}) => {
+const Login = ({user, setUser, showNotification}) => {
 
   return (
     <div>
       {!user &&
-        <LoginForm setUser={setUser} setNotification={setNotification} />
+        <LoginForm setUser={setUser} showNotification={showNotification} />
       }
     </div>
   )

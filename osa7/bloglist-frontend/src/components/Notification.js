@@ -1,5 +1,7 @@
+import {connect} from 'react-redux'
+
 const Notification = ({notification}) => {
-  if (notification === null) {
+  if (!notification) {
     return null
   }
 
@@ -16,4 +18,10 @@ const Notification = ({notification}) => {
   )
 }
 
-export default Notification
+const mapStateToProps = (state) => {
+  return {
+    notification: state.notification
+  }
+}
+
+export default connect(mapStateToProps)(Notification)
