@@ -2,11 +2,11 @@ import {useState, useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {Routes, Route, useMatch} from 'react-router-dom'
 import {initializeBlogs} from './reducers/blogReducer'
+import {initializeUsers} from './reducers/userReducer'
 import BlogList from './components/BlogList'
 import User from './components/User'
 import Users from './components/Users'
 import blogService from './services/blogs'
-import userService from './services/users'
 import Notification from './components/Notification'
 import {handleNotification} from './reducers/notificationReducer'
 import Menu from './components/Menu'
@@ -16,13 +16,13 @@ import './index.css'
 
 const App = () => {
   const [user, setUser] = useState(null)
-  const [users, setUsers] = useState([])
   const blogs = useSelector(state => state.blogs)
+  const users = useSelector(state => state.users)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    userService.getAllUsers().then(users => setUsers(users))
+    dispatch(initializeUsers())
     dispatch(initializeBlogs())
   }, [dispatch])
 
