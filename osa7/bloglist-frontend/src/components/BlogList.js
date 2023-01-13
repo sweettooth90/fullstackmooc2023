@@ -1,11 +1,17 @@
 import BlogForm from './BlogForm'
+import {useSelector} from 'react-redux'
 import {useRef} from 'react'
 import {Link} from 'react-router-dom'
 import Togglable from './Togglable'
 import Table from 'react-bootstrap/Table'
 
-const BlogList = ({setBlogs, blogs, showNotification, user}) => {
+const BlogList = ({showNotification, user}) => {
   const blogFormRef = useRef()
+  const blogs = useSelector(state => [...state.blogs])
+
+  if (!blogs) {
+    return null
+  }
 
   return (
     <>
@@ -14,7 +20,6 @@ const BlogList = ({setBlogs, blogs, showNotification, user}) => {
         {user &&
           <Togglable buttonLabel="new blog" ref={blogFormRef}>
             <BlogForm
-              setBlogs={setBlogs}
               showNotification={showNotification}
               blogFormRef={blogFormRef}
               blogs={blogs}

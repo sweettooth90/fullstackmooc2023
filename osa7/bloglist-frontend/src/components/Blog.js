@@ -1,4 +1,6 @@
-import blogService from '../services/blogs'
+import {useDispatch} from 'react-redux'
+import {deleteBlog, addLikeToBlog, initializeBlogs} from '../reducers/blogReducer'
+import {useNavigate} from 'react-router-dom'
 import styled from 'styled-components'
 
 const Button = styled.button`
@@ -9,33 +11,24 @@ const Button = styled.button`
   border-radius: 3px;
 `
 
-const Blog = ({blog, loggedUser, user, setBlogs, showNotification}) => {
+const Blog = ({blog, loggedUser, user, showNotification}) => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
   if (!blog) {
     return null
   }
 
-  const likeBlog = () => {
-    blogService
-      .update(blog.id, {
-        title: blog.title,
-        author: blog.author,
-        url: blog.url,
-        likes: blog.likes + 1,
-        user: blog.user ? blog.user.id : null
-      })
-      .then(() => {
-        blogService.getAll().then((blogs) => setBlogs(blogs))
-      })
+  const addLike = async (blog) => {
+    await dispatch(addLikeToBlog(blog.id, {likes: blog.likes + 1}))
   }
 
-  const deleteBlog = () => {
+  const removeBlog = async (blog) => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
-      blogService
-        .remove(blog.id)
-        .then(() => {
-          blogService.getAll().then(blogs => setBlogs(blogs))
-        })
+      await dispatch(deleteBlog(blog.id))
+      dispatch(initializeBlogs())
       showNotification(`blog "${blog.title}" removed`, 'success')
+      navigate('/')
     }
   }
 
@@ -44,14 +37,14 @@ const Blog = ({blog, loggedUser, user, setBlogs, showNotification}) => {
       <h3>{blog.title}</h3>
       <div><a href={blog.url}>{blog.url}</a></div>
       <div>
-        likes {blog.likes} <Button id="like-button" onClick={() => likeBlog(blog)}>like</Button>
+        likes {blog.likes} <Button id="like-button" onClick={() => addLike(blog)}>like</Button>
       </div>
       {user && user.name &&
         <div>added by {user.name}</div>
       }
       {user && loggedUser.name === user.name &&
         <div>
-          <Button id="remove-button" onClick={() => deleteBlog(blog)}>remove</Button>
+          <Button id="remove-button" onClick={() => removeBlog(blog)}>remove</Button>
         </div>
       }
     </>

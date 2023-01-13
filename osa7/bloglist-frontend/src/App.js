@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {Routes, Route, useMatch} from 'react-router-dom'
+import {initializeBlogs} from './reducers/blogReducer'
 import BlogList from './components/BlogList'
 import User from './components/User'
 import Users from './components/Users'
@@ -16,14 +17,14 @@ import './index.css'
 const App = () => {
   const [user, setUser] = useState(null)
   const [users, setUsers] = useState([])
-  const [blogs, setBlogs] = useState([])
+  const blogs = useSelector(state => state.blogs)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
     userService.getAllUsers().then(users => setUsers(users))
-    blogService.getAll().then(blogs => setBlogs(blogs))
-  }, [])
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   const showNotification = (text, type) => {
     dispatch(handleNotification({text, type}))
@@ -53,7 +54,6 @@ const App = () => {
         <Route path="/" element={
           <BlogList
             blogs={blogs}
-            setBlogs={setBlogs}
             showNotification={showNotification}
             user={user}
           />
@@ -63,7 +63,6 @@ const App = () => {
         <Route path="/blogs/:id" element={
           <Blog
             blog={showBlog}
-            setBlogs={setBlogs}
             loggedUser={user}
             user={user}
             showNotification={showNotification}
