@@ -18,11 +18,11 @@ export interface Result {
 }
 
 const parseArguments = (args: string[]): ExerciseValues => {
-  if (args.length < 4) throw new Error('Not enough arguments')
-  const excludeFirstThree: Array<string> = args.slice(3)
+  if (args.length < 1) throw new Error('Not enough arguments')
+  const exclude: Array<string> = args.slice(3)
   const numsArray: Array<number> = new Array<number>()
 
-  excludeFirstThree.forEach(value => {
+  exclude.forEach(value => {
     if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
       numsArray.push(Number(value))
     } else {

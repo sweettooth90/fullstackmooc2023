@@ -1,4 +1,4 @@
-interface BmiValues {
+export interface BmiValues {
   height: number
   weight: number
 }
@@ -17,7 +17,7 @@ const parseArguments = (args: string[]): BmiValues => {
   }
 }
 
-const calculateBmi = (height: number, weight: number) => {
+export const calculateBmi = (height: number, weight: number) => {
   const result = weight / (height/100 * height/100)
 
   if (result < 15) {
@@ -36,6 +36,8 @@ const calculateBmi = (height: number, weight: number) => {
     return 'Obese (Class II)'
   } else if (result >= 40) {
     return 'Obese (Class III)'
+  } else {
+    return 'Something else'
   }
 }
 
