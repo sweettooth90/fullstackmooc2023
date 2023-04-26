@@ -36,7 +36,7 @@ const parseArguments = (args: string[]): ExerciseValues => {
   }
 }
 
-const calculateExercises = (hours: Array<number>, target: number) => {
+export const calculateExercises = (hours: Array<number>, target: number) => {
   const periodLength: number = hours.length
   const trainingDays: number = hours.filter(exerciseDay => exerciseDay > 0).length
   const totalHours: number = hours.reduce((acc, curr) => acc + curr, 0)
