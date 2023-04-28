@@ -1,5 +1,6 @@
 import patients from '../../data/patients'
-import {NonSensitivePatientInfo, Patient} from '../types'
+import {NewPatient, NonSensitivePatientInfo, Patient} from '../types'
+import {v4 as uuid} from 'uuid'
 
 const getPatients = (): Patient[] => {
   return patients
@@ -15,4 +16,25 @@ const getPatientsNonSensitive = (): NonSensitivePatientInfo[] => {
   }))
 }
 
-export default {getPatientsNonSensitive, getPatients}
+const findById = (id: string): Patient | undefined => {
+  const entry = patients.find(p => p.id === id)
+  return entry
+}
+
+const addPatient = (entry: NewPatient): Patient => {
+  const id = uuid()
+  const newPatient = {
+    id: id,
+    ...entry
+  }
+
+  patients.push(newPatient)
+  return newPatient
+}
+
+export default {
+  getPatientsNonSensitive,
+  getPatients,
+  findById,
+  addPatient
+}
