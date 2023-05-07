@@ -1,51 +1,49 @@
-import { useState, SyntheticEvent } from "react";
-
-import {  TextField, InputLabel, MenuItem, Select, Grid, Button, SelectChangeEvent } from '@mui/material';
-
-import { PatientFormValues, Gender } from "../../types";
+import {useState, SyntheticEvent} from "react"
+import {TextField, InputLabel, MenuItem, Select, Grid, Button, SelectChangeEvent } from '@mui/material'
+import {PatientFormValues, Gender} from "../../types"
 
 interface Props {
-  onCancel: () => void;
-  onSubmit: (values: PatientFormValues) => void;
+  onCancel: () => void
+  onSubmit: (values: PatientFormValues) => void
 }
 
 interface GenderOption{
-  value: Gender;
-  label: string;
+  value: Gender
+  label: string
 }
 
 const genderOptions: GenderOption[] = Object.values(Gender).map(v => ({
   value: v, label: v.toString()
-}));
+}))
 
-const AddPatientForm = ({ onCancel, onSubmit }: Props) => {
-  const [name, setName] = useState('');
-  const [occupation, setOccupation] = useState('');
-  const [ssn, setSsn] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState('');
-  const [gender, setGender] = useState(Gender.Other);
+const AddPatientForm = ({onCancel, onSubmit}: Props) => {
+  const [name, setName] = useState('')
+  const [occupation, setOccupation] = useState('')
+  const [ssn, setSsn] = useState('')
+  const [dateOfBirth, setDateOfBirth] = useState('')
+  const [gender, setGender] = useState(Gender.Other)
 
   const onGenderChange = (event: SelectChangeEvent<string>) => {
-    event.preventDefault();
-    if ( typeof event.target.value === "string") {
-      const value = event.target.value;
-      const gender = Object.values(Gender).find(g => g.toString() === value);
+    event.preventDefault()
+    if (typeof event.target.value === "string") {
+      const value = event.target.value
+      const gender = Object.values(Gender).find(g => g.toString() === value)
       if (gender) {
-        setGender(gender);
+        setGender(gender)
       }
     }
-  };
+  }
 
   const addPatient = (event: SyntheticEvent) => {
-    event.preventDefault();
+    event.preventDefault()
     onSubmit({
       name,
       occupation,
       ssn,
       dateOfBirth,
       gender
-    });
-  };
+    })
+  }
 
   return (
     <div>
@@ -54,29 +52,29 @@ const AddPatientForm = ({ onCancel, onSubmit }: Props) => {
           label="Name"
           fullWidth 
           value={name}
-          onChange={({ target }) => setName(target.value)}
+          onChange={({target}) => setName(target.value)}
         />
         <TextField
           label="Social security number"
           fullWidth
           value={ssn}
-          onChange={({ target }) => setSsn(target.value)}
+          onChange={({target}) => setSsn(target.value)}
         />
         <TextField
           label="Date of birth"
           placeholder="YYYY-MM-DD"
           fullWidth
           value={dateOfBirth}
-          onChange={({ target }) => setDateOfBirth(target.value)}
+          onChange={({target}) => setDateOfBirth(target.value)}
         />
         <TextField
           label="Occupation"
           fullWidth
           value={occupation}
-          onChange={({ target }) => setOccupation(target.value)}
+          onChange={({target}) => setOccupation(target.value)}
         />
 
-        <InputLabel style={{ marginTop: 20 }}>Gender</InputLabel>
+        <InputLabel style={{marginTop: 20}}>Gender</InputLabel>
         <Select
           label="Gender"
           fullWidth
@@ -88,8 +86,8 @@ const AddPatientForm = ({ onCancel, onSubmit }: Props) => {
             key={option.label}
             value={option.value}
           >
-            {option.label
-          }</MenuItem>
+            {option.label}
+          </MenuItem>
         )}
         </Select>
 
@@ -98,7 +96,7 @@ const AddPatientForm = ({ onCancel, onSubmit }: Props) => {
             <Button
               color="secondary"
               variant="contained"
-              style={{ float: "left" }}
+              style={{float: "left"}}
               type="button"
               onClick={onCancel}
             >
@@ -107,9 +105,7 @@ const AddPatientForm = ({ onCancel, onSubmit }: Props) => {
           </Grid>
           <Grid item>
             <Button
-              style={{
-                float: "right",
-              }}
+              style={{float: "right"}}
               type="submit"
               variant="contained"
             >
@@ -119,7 +115,7 @@ const AddPatientForm = ({ onCancel, onSubmit }: Props) => {
         </Grid>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default AddPatientForm;
+export default AddPatientForm
