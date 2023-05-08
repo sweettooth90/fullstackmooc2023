@@ -1,0 +1,9 @@
+.patientEntry {
+  border: 1px solid black;
+  padding: 5px;
+  margin-top: 3px;
+}
+
+.diagnosisInfo {
+  margin: 10px;
+}

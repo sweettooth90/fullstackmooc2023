@@ -14,6 +14,7 @@ import {PatientFormValues, Patient} from "../../types"
 import AddPatientModal from "../AddPatientModal"
 import HealthRatingBar from "../HealthRatingBar"
 import patientService from "../../services/patients"
+import {Link} from "react-router-dom"
 
 interface Props {
   patients : Patient[]
@@ -51,7 +52,7 @@ const PatientListPage = ({patients, setPatients} : Props) => {
         setError("Unknown error")
       }
     }
-  };
+  }
 
   return (
     <div className="App">
@@ -72,7 +73,11 @@ const PatientListPage = ({patients, setPatients} : Props) => {
         <TableBody>
           {Object.values(patients).map((patient: Patient) => (
             <TableRow key={patient.id}>
-              <TableCell>{patient.name}</TableCell>
+              <TableCell>
+                <Link to={`/patients/${patient.id}`}>
+                  {patient.name}
+                </Link>
+              </TableCell>
               <TableCell>{patient.gender}</TableCell>
               <TableCell>{patient.occupation}</TableCell>
               <TableCell>
