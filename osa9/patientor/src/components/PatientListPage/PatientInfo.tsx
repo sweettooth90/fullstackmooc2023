@@ -10,7 +10,7 @@ import MaleIcon from '@mui/icons-material/Male'
 
 const PatientInfo = () => {
   const [patient, setPatient] = useState<Patient>()
-  let [diagnosis, setDiagnosis] = useState<Diagnosis[]>()
+  const [diagnosis, setDiagnosis] = useState<Diagnosis[]>()
   const id = useParams().id as string
 
   useEffect(()=> {
